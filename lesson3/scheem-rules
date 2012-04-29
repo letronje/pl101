@@ -1,0 +1,31 @@
+start =
+    expr
+
+validchar
+    = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+
+atom =
+    chars:validchar+
+        { return chars.join(""); }
+
+space = 
+  " "
+oparen = 
+  "("
+
+cparen = 
+  ")"
+
+sexpr = 
+  space e:expr { return e; }
+
+exprlist =
+  first:expr rest:sexpr* { return [first].concat(rest); }
+
+
+
+expr =
+  atom
+  / oparen exprs:exprlist cparen { return exprs; }
+  
+    
